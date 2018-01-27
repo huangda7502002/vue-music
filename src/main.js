@@ -3,8 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import '@/../static/MUI/css/mui.min.css'
+// import '@/../static/MUI/css/mui.min.css'
 import store from './store/index.js'
+import '@/../static/swiper/swiper-4.1.0.min.css'
+import '@/../static/css/normalize.css'
+
+import init from '@/../static/js/init.js'
+init()
 
 Vue.config.productionTip = false
 
