@@ -5,19 +5,24 @@
       <div class="titleItem">视频</div>
       <div class="titleItem">电台</div>
     </div>
-    <div class="slider">
-      <slider></slider>
-    </div>
-    <div class="card">
-      <div class="cardItem"></div>
-      <div class="cardItem"></div>
-      <div class="cardItem"></div>
-      <div class="cardItem"></div>
-    </div>
-    <div class="recommend">
-      <recommend-music titleName="推荐歌单" :musicList="musicList"></recommend-music>
-      <recommend-private titleName="独家放送" :privateList="privateList"></recommend-private>
-    </div>
+    <scroll>
+      <div class="content">
+        <div class="slider">
+          <slider></slider>
+        </div>
+        <div class="card">
+          <div class="cardItem"></div>
+          <div class="cardItem"></div>
+          <div class="cardItem"></div>
+          <div class="cardItem"></div>
+        </div>
+        <div class="recommend">
+          <recommend-music titleName="推荐歌单" :musicList="musicList"></recommend-music>
+          <recommend-private titleName="独家放送" :privateList="privateList"></recommend-private>
+          <recommend-mv titleName="推荐MV" :MVList="MVList"></recommend-mv>
+        </div>
+      </div>
+    </scroll>
   </div>
 </template>
 
@@ -25,18 +30,23 @@
 import Slider from '@/components/slider/slider'
 import RecommendMusic from '@/components/recommendMusic/recommendMusic'
 import RecommendPrivate from '@/components/recommendPrivate/recommendPrivate'
+import RecommendMv from '@/components/recommendMV/recommendMV'
 import getMusicList from '@/api/getMusicList.js'
 import getPrivateContent from '@/api/getPrivateContent.js'
+import getMVList from '@/api/getMVList'
+import Scroll from '@/components/scroll/scroll'
+
 export default {
   name: 'index',
   data () {
     return {
       privateList: [],
-      musicList: []
+      musicList: [],
+      MVList: []
     }
   },
   components: {
-    Slider, RecommendMusic, RecommendPrivate
+    Slider, RecommendMusic, RecommendPrivate, RecommendMv, Scroll
   },
   methods: {
     getMusic () {
@@ -60,11 +70,21 @@ export default {
           this.privateList = []
         }
       })
+    },
+    getMV () {
+      getMVList((data) => {
+        if (data) {
+          this.MVList = data
+        } else {
+          this.MVList = []
+        }
+      })
     }
   },
   mounted () {
     this.getMusic()
     this.getPrivate()
+    this.getMV()
   }
 }
 </script>
@@ -82,11 +102,18 @@ export default {
        text-align:center;
      }
    }
-   .card {
-     height: 3rem;
-     .cardItem {
-       width: 25%;
+   .content {
+     position:fixed;
+     top: 1.15rem + 1.57rem;
+     bottom: 0;
+     width: 100%;
+     .card {
+       height: 3rem;
+       .cardItem {
+         width: 25%;
+       }
      }
    }
+
  }
 </style>
