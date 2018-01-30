@@ -1,118 +1,120 @@
 <template>
   <div id="indexPage">
     <div class="title">
-      <div class="titleItem">音乐</div>
-      <div class="titleItem">视频</div>
-      <div class="titleItem">电台</div>
-    </div>
-    <scroll>
-      <div class="content">
-        <div class="slider">
-          <slider></slider>
-        </div>
-        <div class="card">
-          <div class="cardItem"></div>
-          <div class="cardItem"></div>
-          <div class="cardItem"></div>
-          <div class="cardItem"></div>
-        </div>
-        <div class="recommend">
-          <recommend-music titleName="推荐歌单" :musicList="musicList"></recommend-music>
-          <recommend-private titleName="独家放送" :privateList="privateList"></recommend-private>
-          <recommend-mv titleName="推荐MV" :MVList="MVList"></recommend-mv>
-        </div>
+      <div class="titleWrap ripple">
+        <router-link tag="div" to="/index/music" class="titleItem">音乐</router-link>
       </div>
-    </scroll>
+      <div class="titleWrap ripple">
+        <router-link tag="div" to="/index/video" class="titleItem">视频</router-link>
+      </div>
+      <div class="titleWrap ripple">
+        <router-link tag="div" to="/index/broadcast" class="titleItem">电台</router-link>
+      </div>
+    </div>
+    <transition :name="transitionName">
+      <keep-alive>
+        <router-view class="pageContent"></router-view>
+      </keep-alive>
+    </transition>
   </div>
 </template>
 
 <script>
-import Slider from '@/components/slider/slider'
-import RecommendMusic from '@/components/recommendMusic/recommendMusic'
-import RecommendPrivate from '@/components/recommendPrivate/recommendPrivate'
-import RecommendMv from '@/components/recommendMV/recommendMV'
-import getMusicList from '@/api/getMusicList.js'
-import getPrivateContent from '@/api/getPrivateContent.js'
-import getMVList from '@/api/getMVList'
-import Scroll from '@/components/scroll/scroll'
 
 export default {
   name: 'index',
   data () {
     return {
-      privateList: [],
-      musicList: [],
-      MVList: []
+      transitionName: ''
     }
   },
-  components: {
-    Slider, RecommendMusic, RecommendPrivate, RecommendMv, Scroll
-  },
-  methods: {
-    getMusic () {
-      getMusicList((data) => {
-        if (data) {
-          if (data.length > 6) {
-            this.musicList = data.slice(0, 6)
-          } else {
-            this.musicList = data
-          }
-        } else {
-          this.musicList = []
-        }
-      })
-    },
-    getPrivate () {
-      getPrivateContent((data) => {
-        if (data) {
-          this.privateList = data
-        } else {
-          this.privateList = []
-        }
-      })
-    },
-    getMV () {
-      getMVList((data) => {
-        if (data) {
-          this.MVList = data
-        } else {
-          this.MVList = []
-        }
-      })
+  computed: {
+    transitionNameReverse () {
+      if (this.transitionName === 'slide-right') {
+        return 'slide-left'
+      } else {
+        return 'slide-right'
+      }
     }
   },
-  mounted () {
-    this.getMusic()
-    this.getPrivate()
-    this.getMV()
+  watch: {
+    $route (to, from) {
+      let fromIndex = from.meta.tab
+      let toIndex = to.meta.tab
+      let diff = parseInt(fromIndex) - parseInt(toIndex)
+      this.transitionName = diff > 0 ? 'slide-right' : 'slide-left'
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
  #indexPage {
+   width: 100%;
+   height: 100%;
+   position: relative;
+   background: #f2f4f5;
+   $titleHeight:1.15rem;
    .title {
-     height: 1.15rem;
-     background:#fff;
-     .titleItem {
-       width: 2rem;
-       margin-left: 1.2rem;
-       float:left;
-       line-height: 1.15rem;
-       text-align:center;
-     }
-   }
-   .content {
-     position:fixed;
-     top: 1.15rem + 1.57rem;
-     bottom: 0;
+     position:absolute;
      width: 100%;
-     .card {
-       height: 3rem;
-       .cardItem {
-         width: 25%;
+     top: 0;
+     left: 0;
+     height: $titleHeight;
+     background:#fff;
+     box-sizing: border-box;
+     padding:0px 1.2rem;
+     z-index: 10;
+     display:flex;
+     .router-link-active {
+       color: #d33a31;
+       border-bottom: .06rem solid #d33a31;
+       box-sizing: border-box;
+     }
+     .titleWrap {
+       width: 33.33%;
+       height: 100%;
+       .titleItem {
+         width: 2rem;
+         height: 100%;
+         margin: 0 auto;
+         line-height: 1.15rem;
+         text-align:center;
        }
      }
+   }
+   .pageContent {
+     position: absolute;
+     left:0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+   }
+
+   /deep/ .scrollView {
+     padding-top: $titleHeight;
+   }
+
+   .slide-left-enter {
+     transform: translate(100%);
+   }
+   .slide-left-enter-active {
+     transition: all .3s;
+   }
+   .slide-left-leave-active {
+     transform: translate(-100%);
+     transition: all  .3s;
+   }
+
+   .slide-right-enter {
+     transform: translate(-100%);
+   }
+   .slide-right-enter-active {
+     transition: all .3s;
+   }
+   .slide-right-leave-active {
+     transform: translate(100%);
+     transition: all  .3s;
    }
 
  }

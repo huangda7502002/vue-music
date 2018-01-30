@@ -1,10 +1,17 @@
 <template>
-
+  <div>
+    broadcast <br>
+    broadcast <br>
+    broadcast <br>
+    broadcast <br>
+    broadcast <br>
+    broadcast <br>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'broadcast'
+  name: 'broadcast-page'
 }
 </script>
 

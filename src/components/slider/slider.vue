@@ -2,9 +2,8 @@
   <div id="silder">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div v-for="(item,index) in img" :key="index" class="swiper-slide"><img :src="item.pic" alt=""></div>
+        <div v-for="(item,index) in sliderList" :key="index" class="swiper-slide"><img :src="item.pic" alt=""></div>
       </div>
-      <!-- 如果需要分页器 -->
       <div class="swiper-pagination"></div>
     </div>
   </div>
@@ -12,12 +11,16 @@
 
 <script>
 import Swiper from '@/../static/swiper/swiper-4.1.0.min.js'
-import getBanner from '@/api/getBanner.js'
 export default {
   name: 'slider',
+  props: {
+    sliderList: {
+      type: Array,
+      'default': []
+    }
+  },
   data () {
     return {
-      img: [],
       swiper: null
     }
   },
@@ -32,20 +35,7 @@ export default {
         observer: true,
         observeParents: true
       })
-    },
-    getImg () {
-      getBanner((data) => {
-        console.log(data)
-        if (data) {
-          this.img = data
-        } else {
-          this.img = []
-        }
-      })
     }
-  },
-  mounted () {
-    this.getImg()
   },
   updated () {
     this.init()

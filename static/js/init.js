@@ -17,9 +17,9 @@ function setFontSize () {
 }
 
 function init () {
-  window.onresize = function () {
+  window.addEventListener('resize',() => {
     setFontSize()
-  }
+  })
   setFontSize()
 }
 

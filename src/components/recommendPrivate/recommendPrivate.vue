@@ -2,15 +2,16 @@
   <div id="recommendPrivate" v-if="privateList.length !== 0">
     <div class="title">
       {{titleName}}
+      <i class="icon icon-right"></i>
     </div>
     <div class="content">
       <ul>
         <li>
-          <img :src="privateList[1].picUrl" alt="">
+          <img :src="privateList[1].sPicUrl" alt="">
           <p>{{privateList[1].name}}</p>
         </li>
         <li>
-          <img :src="privateList[2].picUrl" alt="">
+          <img :src="privateList[2].sPicUrl" alt="">
           <p>{{privateList[2].name}}</p>
         </li>
         <li>
@@ -40,14 +41,18 @@ export default {
 
 <style lang="scss" scoped>
   #recommendPrivate {
-    margin-bottom: .45rem;
+    margin-top: .7rem;
     .title {
       height: .45rem;
       line-height: .45rem;
-      font-size: .35rem;
+      font-size: .45rem;
       border-left: .06rem solid #d33a31;
       text-indent: .2rem;
       margin-bottom: .45rem;
+      color: #303131;
+      .icon {
+        color: #919293
+      }
     }
     .content {
       height: 10.5rem;
@@ -58,10 +63,11 @@ export default {
         justify-content:space-between;
         flex-wrap: wrap;
         li {
-          width:5.35rem;
+          width: 50%;
           height:4.7rem;
+          box-sizing:border-box;
           img {
-            width: 5.35rem;
+            width: 100%;
             height: 3.02rem;
           }
           p {
@@ -76,6 +82,12 @@ export default {
             overflow: hidden;
             word-break:break-all;
           }
+        }
+        li:first-child {
+          padding-right:1px;
+        }
+        li:nth-child(2) {
+          padding-left:1px;
         }
         li:last-child {
           width: 100%;

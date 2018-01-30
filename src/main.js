@@ -7,10 +7,15 @@ import router from './router'
 import store from './store/index.js'
 import '@/../static/swiper/swiper-4.1.0.min.css'
 import '@/../static/css/normalize.css'
+import '@/common/css/base.css'
+import '@/../static/font-icon/style.css'
+import IScroll from 'iscroll'
+import IScrollView from 'vue-iscroll-view'
 
 import init from '@/../static/js/init.js'
 init()
 
+Vue.use(IScrollView, IScroll)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

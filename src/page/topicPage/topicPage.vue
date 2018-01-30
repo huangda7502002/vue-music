@@ -1,11 +1,13 @@
 <template>
-    $END$
+  <div>
+    topicPage
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "topic-page"
-    }
+export default {
+  name: 'topic-page'
+}
 </script>
 
 <style scoped>

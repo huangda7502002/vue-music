@@ -1,15 +1,15 @@
 <template>
-  <div>
-    myMusci
+  <div class="songList">
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'my-music'
+    name: 'song-list'
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

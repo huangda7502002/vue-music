@@ -1,7 +1,8 @@
 import axios from 'axios'
+import apiConfig from './apiConfig'
 
 function getMusic (callback) {
-  let url = 'http://localhost:3000/personalized'
+  let url = apiConfig.recommendMusicListPath
   axios.get(url).then((response) => {
     callback(response.data.result)
   }).catch((err) => {
