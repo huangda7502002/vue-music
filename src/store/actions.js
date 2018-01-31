@@ -29,6 +29,7 @@ const actions = {
   },
   showMusicListDetail ({commit, state}, data) {
     getMusicListDetail(data, (result) => {
+      console.log(result)
       commit(types.SET_MUSICLISTDETAIL_SHOWLIST, result)
       commit(types.SET_MUSICLISTDETAIL_SHOW, true)
     })

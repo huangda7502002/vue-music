@@ -1,12 +1,12 @@
 <template>
   <div class="musicListDetailPage" v-if="musicListDetail.showList.length !== 0" v-show="musicListDetail.show">
-    <div class="background" :style="'background-image: url(' + backgroundUrl + ')'"></div>
+    <div class="background" :style="'background-image: url(' + coverImgUrl + ')'"></div>
     <div class="top">
       <div class="back">
         <i class="icon-back"></i>
       </div>
       <div class="text">
-        <p>dfsdfsdf</p>
+        <p>歌单</p>
         <p>sdfsdfsdfsd</p>
       </div>
       <div class="search">
@@ -16,53 +16,63 @@
         <i class="icon-list-circle"></i>
       </div>
     </div>
-    <div class="content">
-      <div class="author">
-        <img :src="avatarUrl" alt="">
-        <div class="listName">
-          <p class="listTitle">sdfsdfsdfsd</p>
-          <p class="avatar">
-            <img :src="avatarUrl" alt="">
-            <span>{{nickName}}</span>
-            <i class="icon-right"></i>
+    <b-scroll class="scrollView">
+      <div class="content">
+        <div class="author">
+          <img :src="coverImgUrl" alt="">
+          <div class="listName">
+            <p class="listTitle">{{name}}</p>
+            <p class="avatar">
+              <img :src="avatarUrl" alt="">
+              <span>{{nickName}}</span>
+              <i class="icon-right"></i>
+            </p>
+          </div>
+          <div class="operation">
+            <div class="operationItem">
+              <i class="icon-music"></i><br>
+              <span>{{subscribedCount}}</span>
+            </div>
+            <div class="operationItem">
+              <i class="icon-msg"></i><br>
+              <span>{{commentCount}}</span>
+            </div>
+            <div class="operationItem">
+              <i class="icon-share"></i><br>
+              <span>{{shareCount}}</span>
+            </div>
+            <div class="operationItem">
+              <i class="icon-download"></i><br>
+              <span>下载</span>
+            </div>
+          </div>
+        </div>
+        <div class="play">
+          <div class="playpause">
+            <i class="icon-play"></i>
+          </div>
+          <p class="playall">
+            播放全部
+            <span class="trackCount">(共{{trackCount}}首)</span>
           </p>
+          <i class="icon-menu"></i>
+          <p class="choose">多选</p>
         </div>
-        <div class="operation">
-          <div class="operationItem">
-            <i class="icon-music"></i><br>
-            <span>234234</span>
-          </div>
-          <div class="operationItem">
-            <i class="icon-msg"></i><br>
-            <span>234234</span>
-          </div>
-          <div class="operationItem">
-            <i class="icon-share"></i><br>
-            <span>234234</span>
-          </div>
-          <div class="operationItem">
-            <i class="icon-download"></i><br>
-            <span>234234</span>
-          </div>
-        </div>
+        <music-list :tracks="musicListDetail.showList.tracks"></music-list>
       </div>
-      <div class="play">
-        <div class="playpause">
-          <i class="icon-play"></i>
-        </div>
-        <p class="playall">播放全部</p>
-        <i class="icon-menu"></i>
-        <p class="choose">多选</p>
-      </div>
-      <div class="list"></div>
-    </div>
+    </b-scroll>
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import MusicList from '@/components/MusicList/MusicList'
+import BScroll from '@/components/scroll/scroll'
 export default {
   name: 'music-list-detail-page',
+  components: {
+    MusicList, BScroll
+  },
   computed: {
     ...mapGetters([
       'musicListDetail'
@@ -81,6 +91,36 @@ export default {
       if (this.musicListDetail.length !== 0) {
         return this.musicListDetail.showList.creator.backgroundUrl
       }
+    },
+    coverImgUrl () {
+      if (this.musicListDetail.length !== 0) {
+        return this.musicListDetail.showList.coverImgUrl
+      }
+    },
+    shareCount () {
+      if (this.musicListDetail.length !== 0) {
+        return this.musicListDetail.showList.shareCount
+      }
+    },
+    commentCount () {
+      if (this.musicListDetail.length !== 0) {
+        return this.musicListDetail.showList.commentCount
+      }
+    },
+    subscribedCount () {
+      if (this.musicListDetail.length !== 0) {
+        return this.musicListDetail.showList.subscribedCount
+      }
+    },
+    name () {
+      if (this.musicListDetail.length !== 0) {
+        return this.musicListDetail.showList.name
+      }
+    },
+    trackCount () {
+      if (this.musicListDetail.length !== 0) {
+        return this.musicListDetail.showList.trackCount
+      }
     }
   }
 }
@@ -96,12 +136,13 @@ export default {
     right: 0;
     padding-top: 1.55rem;
     color: #fff;
+    background-color: #f2f4f5;
     .background {
       position: absolute;
       left:0;
       top: 0;
       width: 100%;
-      height: 100%;
+      height: 50%;
       background-size: cover;
       background-position: 50%;
       transform: scale(1.5);
@@ -143,6 +184,10 @@ export default {
         flex: 4.8;
       }
     }
+    .scrollView {
+      width: 100%;
+      height: 100%;
+    }
     .content {
       position: relative;
       .author {
@@ -160,10 +205,11 @@ export default {
           position: absolute;
           top: 0;
           left: 5.03rem;
-          line-height: 1.25rem;
-          font-size: .68rem;
+          line-height: .7rem;
+          font-size: .5rem;
           .listTitle {
-            margin-bottom: .32rem;
+            margin-top: .2rem;
+            margin-bottom: .5rem;
           }
           .avatar {
             line-height: .8rem;
@@ -205,12 +251,16 @@ export default {
         display:flex;
         text-align:center;
         font-size: .41rem;
+        border-bottom: 1px solid #e7e9e9;
         .playpause {
           width: 1.51rem;
         }
         .playall {
           width: 7.6rem;
           text-align:left;
+          .trackCount {
+            color: #919293;
+          }
         }
         .icon-menu {
           width: .5rem;
