@@ -3,17 +3,21 @@ const state = {
   recommendPrivate: [],
   recommendBanner: [],
   recommendMV: [],
+  topMV: [],
   musicListDetail: {
     showList: [],
     show: false
   },
+  MVDetail: {
+    show: false,
+    MVId: ''
+  },
   player: {
-    play: false,
-    fullScreen: false,
-    playList: [],
-    sequenceList: [],
+    Play: false,
+    FullScreen: false,
+    PlayList: [],
     Mode: 'sequence',
-    currentIndex: -1
+    CurrentIndex: -1
   }
 }
 export default state

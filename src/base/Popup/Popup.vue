@@ -1,13 +1,26 @@
 <template>
-    $END$
+  <div class="popup" ref="popup">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "popup"
-    }
+let count = 10
+export default {
+  name: 'popup',
+  mounted () {
+    count++
+    this.$refs.popup.style.zIndex = count
+  },
+  beforeDestroy () {
+    count--
+  }
+}
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+ .popup {
+   width: 100%;
+   height: 100%
+ }
 </style>

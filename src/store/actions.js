@@ -1,6 +1,7 @@
 import getRecommendMusicList from '@/api/getRecommendMusicList'
 import getRecommendPrivate from '@/api/getRecommendPrivate'
 import getRecommendMV from '@/api/getRecommendMV'
+import getTopMV from '@/api/getTopMV'
 import getBanner from '@/api/getBanner'
 import getMusicListDetail from '@/api/getMusicListDetail'
 
@@ -27,9 +28,13 @@ const actions = {
       commit(types.SET_RECOMMEND_MV, data)
     })
   },
+  getTopMV ({commit, state}, {limit, offset}) {
+    getTopMV(limit, offset, (data) => {
+      commit(types.SET_TOP_MV, data)
+    })
+  },
   showMusicListDetail ({commit, state}, data) {
     getMusicListDetail(data, (result) => {
-      console.log(result)
       commit(types.SET_MUSICLISTDETAIL_SHOWLIST, result)
       commit(types.SET_MUSICLISTDETAIL_SHOW, true)
     })
@@ -38,11 +43,22 @@ const actions = {
 
   },
   selectPlay ({commit, state}, {list, index}) {
-    commit(types.SET_PLAYER_SEQUENCELIST, list)
     commit(types.SET_PLAYER_PLAYLIST, list)
     commit(types.SET_PLAYER_CURRENTINDEX, index)
-    commit(types.SET_PLAYER_FULLSCREEN, true)
     commit(types.SET_PLAYER_STATE, true)
+    commit(types.SET_PLAYER_FULLSCREEN, true)
+  },
+  randomPlay ({commit, state}, list) {
+    let index = Math.floor(Math.random() * list.length)
+    commit(types.SET_PLAYER_PLAYLIST, list)
+    commit(types.SET_PLAYER_CURRENTINDEX, index)
+    commit(types.SET_PLAYER_STATE, true)
+    commit(types.SET_PLAYER_FULLSCREEN, true)
+    commit(types.SET_PLAYER_MODE, 'random')
+  },
+  showMVDetailPage ({commit, state}, id) {
+    commit(types.SET_MVDETAIL_SHOW, true)
+    commit(types.SET_MVDETAIL_MVID, id)
   }
 }
 

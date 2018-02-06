@@ -11,8 +11,10 @@ import '@/common/css/base.css'
 import '@/../static/font-icon/style.css'
 import IScroll from 'iscroll'
 import IScrollView from 'vue-iscroll-view'
-
 import init from '@/../static/js/init.js'
+import FastClick from 'fastclick'
+
+FastClick.attach(document.body)
 init()
 
 Vue.use(IScrollView, IScroll)

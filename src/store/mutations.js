@@ -12,6 +12,9 @@ const mutations = {
   [types.SET_RECOMMEND_MV] (state, data) {
     state.recommendMV = data
   },
+  [types.SET_TOP_MV] (state, data) {
+    state.topMV = data
+  },
   [types.SET_MUSICLISTDETAIL_SHOW] (state, data) {
     state.musicListDetail.show = data
   },
@@ -19,22 +22,25 @@ const mutations = {
     state.musicListDetail.showList = data
   },
   [types.SET_PLAYER_STATE] (state, data) {
-    state.player.play = data
+    state.player.Play = data
   },
   [types.SET_PLAYER_PLAYLIST] (state, data) {
-    state.player.playList = data
+    state.player.PlayList = data
   },
   [types.SET_PLAYER_FULLSCREEN] (state, data) {
-    state.player.fullScreen = data
+    state.player.FullScreen = data
   },
   [types.SET_PLAYER_MODE] (state, data) {
-    state.player.mode = data
+    state.player.Mode = data
   },
   [types.SET_PLAYER_CURRENTINDEX] (state, data) {
-    state.player.currentIndex = data
+    state.player.CurrentIndex = data
   },
-  [types.SET_PLAYER_SEQUENCELIST] (state, data) {
-    state.player.sequenceList = data
+  [types.SET_MVDETAIL_MVID] (state, data) {
+    state.MVDetail.MVId = data
+  },
+  [types.SET_MVDETAIL_SHOW] (state, data) {
+    state.MVDetail.show = data
   }
 }
 export default mutations

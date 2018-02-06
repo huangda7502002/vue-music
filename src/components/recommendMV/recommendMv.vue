@@ -6,7 +6,7 @@
     </div>
     <div class="content">
       <ul>
-        <li v-for="(item,index) in MVList" :key="index">
+        <li v-for="(item,index) in MVList" :key="index" @click="selectMVItem(item.id)">
           <img :src="item.picUrl" alt="">
           <div class="artist">
             <p class="name">{{item.name}}</p>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: 'recommend-mv',
   props: {
@@ -29,6 +30,15 @@ export default {
     MVList: {
       type: Array,
       'default': []
+    }
+  },
+  methods: {
+    ...mapActions([
+      'showMVDetailPage'
+    ]),
+    selectMVItem (id) {
+      console.log(id)
+      this.showMVDetailPage(id)
     }
   }
 }

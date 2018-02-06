@@ -13,7 +13,7 @@
         <i class="icon-search"></i>
       </div>
       <div class="more">
-        <i class="icon-list-circle"></i>
+        <i class="icon-list-circle-small"></i>
       </div>
     </div>
     <b-scroll class="scrollView">
@@ -48,30 +48,46 @@
           </div>
         </div>
         <div class="play">
-          <div class="playpause">
-            <i class="icon-play"></i>
+          <div class="playpause" @click="playAll">
+            <i class="icon-playdetail" ></i>
           </div>
-          <p class="playall">
+          <p class="playall" @click="playAll">
             播放全部
             <span class="trackCount">(共{{trackCount}}首)</span>
           </p>
           <i class="icon-menu"></i>
           <p class="choose">多选</p>
         </div>
-        <music-list :tracks="musicListDetail.showList.tracks"></music-list>
+        <music-list @selected="selectItem"  :tracks="musicListDetail.showList.tracks"></music-list>
       </div>
     </b-scroll>
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import MusicList from '@/components/MusicList/MusicList'
 import BScroll from '@/components/scroll/scroll'
+
 export default {
   name: 'music-list-detail-page',
   components: {
     MusicList, BScroll
+  },
+  methods: {
+    selectItem (item, index) {
+      this.selectPlay({
+        list: this.musicListDetail.showList.tracks,
+        index: index
+      })
+    },
+    playAll () {
+      this.randomPlay(this.musicListDetail.showList.tracks)
+    },
+    ...mapActions([
+      'selectPlay',
+      'randomPlay'
+    ])
   },
   computed: {
     ...mapGetters([
@@ -147,6 +163,13 @@ export default {
       background-position: 50%;
       transform: scale(1.5);
       filter: blur(20px);
+      &::after {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        content: '';
+        background: rgba(0,0,0,0.45);
+      }
     }
     .top {
       position: fixed;
@@ -254,6 +277,8 @@ export default {
         border-bottom: 1px solid #e7e9e9;
         .playpause {
           width: 1.51rem;
+          line-height: 1.51rem;
+          font-size: .65rem;
         }
         .playall {
           width: 7.6rem;

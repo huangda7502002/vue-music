@@ -15,26 +15,35 @@ const getters = {
   recommendBanner (state) {
     return state.recommendBanner
   },
+  topMV (state) {
+    return state.topMV.data
+  },
   playerState (state) {
-    return state.player.play
+    return state.player.Play
   },
   playerMode (state) {
     return state.player.Mode
   },
   playerPlayList (state) {
-    return state.player.playList
+    return state.player.PlayList
   },
   playerCurrentIndex (state) {
-    return state.player.currentIndex
+    return state.player.CurrentIndex
   },
   playerFullScreen (state) {
     return state.player.FullScreen
   },
-  playerSequenceList (state) {
-    return state.player.SequenceList
+  playerCurrentSong (state) {
+    return state.player.PlayList[state.player.CurrentIndex]
   },
   musicListDetail (state) {
     return state.musicListDetail
+  },
+  MVDetailShow (state) {
+    return state.MVDetail.show
+  },
+  MVDetailId (state) {
+    return state.MVDetail.MVId
   }
 }
 export default getters

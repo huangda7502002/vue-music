@@ -6,8 +6,9 @@
         <router-view></router-view>
       </keep-alive>
     </div>
-    <!--<player></player>-->
+    <player></player>
     <music-list-detail-page></music-list-detail-page>
+    <m-v-detail-page></m-v-detail-page>
   </div>
 </template>
 
@@ -15,10 +16,12 @@
 import MyHeader from '@/components/MyHeader/MyHeader'
 import Player from '@/components/player/player'
 import musicListDetailPage from '@/page/musicListDetailPage/musicListDetailPage'
+import MVDetailPage from '@/page/MVDetailPage/MVDetailPage'
+
 export default {
   name: 'App',
   components: {
-    MyHeader, Player, musicListDetailPage
+    MyHeader, Player, musicListDetailPage, MVDetailPage
   },
   data () {
     return {
@@ -32,7 +35,6 @@ export default {
     }
   },
   mounted () {
-    // this.init()
   }
 }
 </script>
