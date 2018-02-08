@@ -5,7 +5,7 @@
         <div v-for="(item,index) in topMVList" class="videoContent" :key="index">
           <my-video class="video" :videoDetail="item.data"></my-video>
 
-          <div class="panel">
+          <div class="panel" @click="selectItem(item.data.id)">
             <div class="text">
               <p class="name">{{item.data.name}}</p>
               <p class="artist">{{item.data.artistName}}</p>
@@ -48,7 +48,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getTopMV'
+      'getTopMV',
+      'showMVDetailPage'
     ]),
     pullingDown () {
       this.isPullingDown = true
@@ -65,6 +66,10 @@ export default {
         'limit': this.limit,
         'offset': this.offset
       })
+    },
+    selectItem (id) {
+      console.log(id)
+      this.showMVDetailPage(id)
     }
   },
   computed: {

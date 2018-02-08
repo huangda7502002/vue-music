@@ -6,7 +6,7 @@
     </div>
     <div class="content">
       <ul>
-        <li v-for="(item,index) in musicList" :key="index" @click="showMusicListDetail(item.id)">
+        <li v-for="(item,index) in musicList" :key="index" @click="showMusicListDetail(item)">
           <img :src="item.picUrl" alt="">
           <p>{{item.name}}</p>
         </li>

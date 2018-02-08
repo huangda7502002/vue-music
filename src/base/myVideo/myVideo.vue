@@ -65,6 +65,7 @@ export default {
       } else {
         this.showControl = true
       }
+      this.$emit('toggleControl', this.showControl)
     },
     format (interval) {
       let minute = Math.floor(interval / 60) | 0
@@ -72,6 +73,12 @@ export default {
       minute = minute < 10 ? '0' + minute : minute
       second = second < 10 ? '0' + second : second
       return `${minute}:${second}`
+    },
+    close () {
+      this.playState = false
+    },
+    open () {
+      this.playState = true
     }
   },
   computed: {
@@ -131,7 +138,7 @@ export default {
     bottom: .06rem;
     width: 100%;
     height: 1.38rem;
-    background:linear-gradient(to top, black, transparent);
+    background:linear-gradient(to top, #181818, transparent);
     .time {
       color: #fff;
       text-indent: .28rem;
@@ -170,6 +177,7 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 1;
     /deep/ .grogress-bar {
       padding: 0;
       height: auto;

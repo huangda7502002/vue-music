@@ -64,7 +64,7 @@ export default {
      background:#fff;
      box-sizing: border-box;
      padding:0px 1.2rem;
-     z-index: 10;
+     z-index: 1;
      display:flex;
      .router-link-active {
        color: #d33a31;

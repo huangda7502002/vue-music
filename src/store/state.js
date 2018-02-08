@@ -6,6 +6,7 @@ const state = {
   topMV: [],
   musicListDetail: {
     showList: [],
+    copywriter: '',
     show: false
   },
   MVDetail: {
@@ -18,6 +19,7 @@ const state = {
     PlayList: [],
     Mode: 'sequence',
     CurrentIndex: -1
-  }
+  },
+  searchShow: false
 }
 export default state

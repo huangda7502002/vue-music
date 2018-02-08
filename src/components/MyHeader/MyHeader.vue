@@ -12,20 +12,22 @@
         <i class="icon-community"></i>
       </router-link>
     </div>
-    <i class="search icon-search ripple"></i>
+    <i class="search icon-search ripple" @click="showSearch"></i>
   </div>
 </template>
 
 <script>
 import '@/common/css/index.css'
 
+import {mapActions} from 'vuex'
 export default {
   name: 'my-header',
   methods: {
-    init () {
-    },
-    mounted () {
-      this.init()
+    ...mapActions([
+      'showSearchPage'
+    ]),
+    showSearch () {
+      this.showSearchPage()
     }
   }
 }

@@ -478,7 +478,7 @@ export default {
           width: 8.15rem;
           height: 8.15rem;
           margin: 0 auto;
-          margin-bottom: 2.03rem;
+          margin-bottom: 1.86rem;
           margin-top: 1.86rem;
           border-radius: 50%;
           position: relative;

@@ -21,6 +21,9 @@ const mutations = {
   [types.SET_MUSICLISTDETAIL_SHOWLIST] (state, data) {
     state.musicListDetail.showList = data
   },
+  [types.SET_MUSICLISTDETAIL_COPYWRITE] (state, data) {
+    state.musicListDetail.copywriter = data
+  },
   [types.SET_PLAYER_STATE] (state, data) {
     state.player.Play = data
   },
@@ -41,6 +44,9 @@ const mutations = {
   },
   [types.SET_MVDETAIL_SHOW] (state, data) {
     state.MVDetail.show = data
+  },
+  [types.SET_SEARCH_SHOW] (state, data) {
+    state.searchShow = data
   }
 }
 export default mutations

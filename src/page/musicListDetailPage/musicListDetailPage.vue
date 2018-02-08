@@ -1,78 +1,86 @@
 <template>
-  <div class="musicListDetailPage" v-if="musicListDetail.showList.length !== 0" v-show="musicListDetail.show">
-    <div class="background" :style="'background-image: url(' + coverImgUrl + ')'"></div>
-    <div class="top">
-      <div class="back">
-        <i class="icon-back"></i>
+  <transition name="fadeUp">
+    <div class="musicListDetailPage"  v-show="musicListDetail.show">
+      <div class="loading" v-if="musicListDetail.showList.length === 0">
+        <loading></loading>
+        &nbsp;努力加载中...
       </div>
-      <div class="text">
-        <p>歌单</p>
-        <p>sdfsdfsdfsd</p>
+      <div class="background"  :style="'background-image: url(' + coverImgUrl + ')' " v-if="musicListDetail.showList.length !== 0"></div>
+      <div class="top">
+        <div class="back" @click="back">
+          <i class="icon-back"></i>
+        </div>
+        <div class="text">
+          <p>歌单</p>
+          <p>{{musicListDetail.copywriter}}</p>
+        </div>
+        <div class="search">
+          <i class="icon-search"></i>
+        </div>
+        <div class="more">
+          <i class="icon-list-circle-small"></i>
+        </div>
       </div>
-      <div class="search">
-        <i class="icon-search"></i>
-      </div>
-      <div class="more">
-        <i class="icon-list-circle-small"></i>
-      </div>
-    </div>
-    <b-scroll class="scrollView">
-      <div class="content">
-        <div class="author">
-          <img :src="coverImgUrl" alt="">
-          <div class="listName">
-            <p class="listTitle">{{name}}</p>
-            <p class="avatar">
-              <img :src="avatarUrl" alt="">
-              <span>{{nickName}}</span>
-              <i class="icon-right"></i>
+      <b-scroll :data="musicListDetail.showList" class="scrollView" v-if="musicListDetail.showList.length !== 0">
+        <div class="content">
+          <div class="author">
+            <img :src="coverImgUrl" alt="">
+            <div class="listName">
+              <p class="listTitle">{{name}}</p>
+              <p class="avatar">
+                <img :src="avatarUrl" alt="">
+                <span>{{nickName}}</span>
+                <i class="icon-right"></i>
+              </p>
+            </div>
+            <div class="operation">
+              <div class="operationItem">
+                <i class="icon-music"></i><br>
+                <span>{{subscribedCount}}</span>
+              </div>
+              <div class="operationItem">
+                <i class="icon-msg"></i><br>
+                <span>{{commentCount}}</span>
+              </div>
+              <div class="operationItem">
+                <i class="icon-share"></i><br>
+                <span>{{shareCount}}</span>
+              </div>
+              <div class="operationItem">
+                <i class="icon-download"></i><br>
+                <span>下载</span>
+              </div>
+            </div>
+          </div>
+          <div class="play">
+            <div class="playpause" @click="playAll">
+              <i class="icon-playdetail" ></i>
+            </div>
+            <p class="playall" @click="playAll">
+              播放全部
+              <span class="trackCount">(共{{trackCount}}首)</span>
             </p>
+            <i class="icon-menu"></i>
+            <p class="choose">多选</p>
           </div>
-          <div class="operation">
-            <div class="operationItem">
-              <i class="icon-music"></i><br>
-              <span>{{subscribedCount}}</span>
-            </div>
-            <div class="operationItem">
-              <i class="icon-msg"></i><br>
-              <span>{{commentCount}}</span>
-            </div>
-            <div class="operationItem">
-              <i class="icon-share"></i><br>
-              <span>{{shareCount}}</span>
-            </div>
-            <div class="operationItem">
-              <i class="icon-download"></i><br>
-              <span>下载</span>
-            </div>
-          </div>
+          <music-list @selected="selectItem"  :tracks="musicListDetail.showList.tracks"></music-list>
         </div>
-        <div class="play">
-          <div class="playpause" @click="playAll">
-            <i class="icon-playdetail" ></i>
-          </div>
-          <p class="playall" @click="playAll">
-            播放全部
-            <span class="trackCount">(共{{trackCount}}首)</span>
-          </p>
-          <i class="icon-menu"></i>
-          <p class="choose">多选</p>
-        </div>
-        <music-list @selected="selectItem"  :tracks="musicListDetail.showList.tracks"></music-list>
-      </div>
-    </b-scroll>
-  </div>
+      </b-scroll>
+    </div>
+  </transition>
+
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import MusicList from '@/components/MusicList/MusicList'
 import BScroll from '@/components/scroll/scroll'
+import Loading from '@/base/loading/loading'
 
 export default {
   name: 'music-list-detail-page',
   components: {
-    MusicList, BScroll
+    MusicList, BScroll, Loading
   },
   methods: {
     selectItem (item, index) {
@@ -84,9 +92,13 @@ export default {
     playAll () {
       this.randomPlay(this.musicListDetail.showList.tracks)
     },
+    back () {
+      this.hideMusicListDetail()
+    },
     ...mapActions([
       'selectPlay',
-      'randomPlay'
+      'randomPlay',
+      'hideMusicListDetail'
     ])
   },
   computed: {
@@ -170,6 +182,13 @@ export default {
         content: '';
         background: rgba(0,0,0,0.45);
       }
+    }
+    .loading {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px 0;
     }
     .top {
       position: fixed;
@@ -296,6 +315,14 @@ export default {
         }
       }
     }
+  }
+
+  .fadeUp-enter-active,.fadeUp-leave-active {
+    transition: all .2s;
+  }
+  .fadeUp-enter,.fadeUp-leave-active {
+    opacity: 0;
+    transform: translateY(1rem)
   }
 
 </style>

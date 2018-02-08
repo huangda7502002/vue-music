@@ -44,6 +44,9 @@ const getters = {
   },
   MVDetailId (state) {
     return state.MVDetail.MVId
+  },
+  searchShow (state) {
+    return state.searchShow
   }
 }
 export default getters

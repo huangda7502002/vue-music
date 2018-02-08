@@ -33,14 +33,15 @@ const actions = {
       commit(types.SET_TOP_MV, data)
     })
   },
-  showMusicListDetail ({commit, state}, data) {
-    getMusicListDetail(data, (result) => {
+  showMusicListDetail ({commit, state}, obj) {
+    commit(types.SET_MUSICLISTDETAIL_SHOW, true)
+    commit(types.SET_MUSICLISTDETAIL_COPYWRITE, obj.copywriter)
+    getMusicListDetail(obj.id, (result) => {
       commit(types.SET_MUSICLISTDETAIL_SHOWLIST, result)
-      commit(types.SET_MUSICLISTDETAIL_SHOW, true)
     })
   },
-  hideMusicListDetail () {
-
+  hideMusicListDetail ({commit}) {
+    commit(types.SET_MUSICLISTDETAIL_SHOW, false)
   },
   selectPlay ({commit, state}, {list, index}) {
     commit(types.SET_PLAYER_PLAYLIST, list)
@@ -59,6 +60,15 @@ const actions = {
   showMVDetailPage ({commit, state}, id) {
     commit(types.SET_MVDETAIL_SHOW, true)
     commit(types.SET_MVDETAIL_MVID, id)
+  },
+  closeMVDetailPage ({commit, state}) {
+    commit(types.SET_MVDETAIL_SHOW, false)
+  },
+  showSearchPage ({commit}) {
+    commit(types.SET_SEARCH_SHOW, true)
+  },
+  hideSearchPage ({commit}) {
+    commit(types.SET_SEARCH_SHOW, false)
   }
 }
 

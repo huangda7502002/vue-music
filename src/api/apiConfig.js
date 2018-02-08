@@ -11,6 +11,7 @@ let apiConfig = {
   topMV: url + '/top/mv',
   MVDetail: url + '/mv',
   MVSimi: url + '/simi/mv',
-  MVComment: url + '/comment/mv'
+  MVComment: url + '/comment/mv',
+  search: url + '/search'
 }
 export default apiConfig
