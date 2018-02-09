@@ -10,21 +10,25 @@
 
 > 后端采用基于node的网易云api接口
 
+> 目前主要完成音乐播放和视频的播放, 搜索功能正在开发中.
 
 
 
-``` bash
-# install dependencies
-npm install
+# pc端浏览地址
+> 如果觉得还可以，请star，你们的star是我前进的动力。
 
-# serve with hot reload at localhost:8080
-npm run dev
+> 本项目正在不断更新中, 后续将添加更多的功能, 敬请期待.
 
-# build for production with minification
-npm run build
+> http://111.231.54.71:3000
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+# 项目截图
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+<div  align="center">    
+  <img src="screenshots/Screenshot1.png" width = "300"/><br/>  
+  <img src="screenshots/Screenshot2.png" width = "300"/><br/>  
+  <img src="screenshots/Screenshot3.png" width = "300"/><br/>  
+  <img src="screenshots/Screenshot4.png" width = "300"/><br/>  
+  <img src="screenshots/Screenshot5.png" width = "300"/><br/>  
+  <img src="screenshots/Screenshot6.png" width = "300"/><br/>  
+  <img src="screenshots/Screenshot7.png" width = "300"/><br/>  
+</div>
