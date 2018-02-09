@@ -1,8 +1,17 @@
-# cloudmusic
+# 技术栈
 
-> A Vue.js project
+> vue2.0 + vue-router + webpack + vuex + axios
 
-## Build Setup
+> better-scroll (移动端滚动插件)
+
+> fastclick (解决移动端click事件300ms延迟)
+
+> vue-lazyload (图片懒加载)
+
+> 后端采用基于node的网易云api接口
+
+
+
 
 ``` bash
 # install dependencies
