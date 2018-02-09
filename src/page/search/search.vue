@@ -19,8 +19,15 @@
         </ul>
       </div>
       <div ref="list" class="list">
-        <scroll :data="list" v-if="list.length > 0">
-          <component :tracks="list" :MVList="list" :playList="list" :singerList="list" :albumList="list" :is="which"></component>
+        <scroll :data="list" v-if="list && list.length > 0">
+          <component
+            @selectSingerItem="selectSingerItem"
+            :tracks="list"
+            :MVList="list"
+            :playList="list"
+            :singerList="list"
+            :albumList="list"
+            :is="which"></component>
         </scroll>
       </div>
     </div>
@@ -60,7 +67,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'hideSearchPage'
+      'hideSearchPage',
+      'showSingerPage'
     ]),
     selectItem (name, e) {
       let list = this.$refs.ul.children
@@ -96,6 +104,7 @@ export default {
           } else if (this.type === '1004') {
             this.list = data.result.mvs
           }
+          console.log(data)
           this.which = name
         }
       })
@@ -124,6 +133,9 @@ export default {
     },
     back () {
       this.hideSearchPage()
+    },
+    selectSingerItem (data) {
+      this.showSingerPage(data)
     }
   },
   mounted () {

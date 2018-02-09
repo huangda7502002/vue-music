@@ -61,13 +61,20 @@ const actions = {
     commit(types.SET_MVDETAIL_SHOW, true)
     commit(types.SET_MVDETAIL_MVID, id)
   },
-  closeMVDetailPage ({commit, state}) {
+  closeMVDetailPage ({commit}) {
     commit(types.SET_MVDETAIL_SHOW, false)
   },
   showSearchPage ({commit}) {
     commit(types.SET_SEARCH_SHOW, true)
   },
   hideSearchPage ({commit}) {
+    commit(types.SET_SEARCH_SHOW, false)
+  },
+  showSingerPage ({commit}, artist) {
+    commit(types.SET_SINGER_ARTIST, artist)
+    commit(types.SET_SINGER_SHOW, true)
+  },
+  hideSingerPage ({commit}) {
     commit(types.SET_SEARCH_SHOW, false)
   }
 }

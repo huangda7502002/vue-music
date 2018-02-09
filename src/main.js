@@ -19,8 +19,7 @@ FastClick.attach(document.body)
 init()
 
 Vue.use(VueLazyLoad, {
-  error: './logo.png',
-  loading: './logo.png'
+  loading: 'logo.png'
 })
 
 Vue.use(IScrollView, IScroll)

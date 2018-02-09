@@ -55,10 +55,12 @@ export default {
     .right {
       flex: 1;
       border-bottom: 1px solid #dadcdd;
+      overflow:hidden;
       .name {
         width: 100%;
         overflow:hidden;
         font-size: .42rem;
+        height: .5rem;
         color: #303131;
         margin-top:.39rem;
       }

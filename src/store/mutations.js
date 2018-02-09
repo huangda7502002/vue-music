@@ -47,6 +47,15 @@ const mutations = {
   },
   [types.SET_SEARCH_SHOW] (state, data) {
     state.searchShow = data
+  },
+  [types.SET_SINGER_ARTIST] (state, data) {
+    state.singer.artist = data
+  },
+  [types.SET_SINGER_SHOW] (state, data) {
+    state.singer.show = data
+  },
+  [types.SET_SINGER_LIST] (state, data) {
+    state.singer.list = data
   }
 }
 export default mutations

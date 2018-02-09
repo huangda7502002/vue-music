@@ -6,7 +6,7 @@
           <img v-lazy="item.cover" alt="">
         </div>
         <div class="right">
-          {{item.name}}
+          <p class="name">{{item.name}}</p>
           <p class="time">
             {{format(item.duration / 1000)}}&nbsp;{{item.artistName}}
           </p>
@@ -60,6 +60,10 @@ export default {
         font-size: .44rem;
         padding-top: .37rem;
         border-bottom: 1px solid #dadcdd;
+        .name {
+          height: .95rem;
+          overflow:hidden;
+        }
         .time {
           line-height: .38rem;
           color: #797a7b;

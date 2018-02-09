@@ -6,6 +6,7 @@
         <router-view></router-view>
       </keep-alive>
     </div>
+    <singer-detail></singer-detail>
     <search></search>
     <player></player>
     <music-list-detail-page></music-list-detail-page>
@@ -19,11 +20,12 @@ import Player from '@/components/player/player'
 import musicListDetailPage from '@/page/musicListDetailPage/musicListDetailPage'
 import MVDetailPage from '@/page/MVDetailPage/MVDetailPage'
 import Search from '@/page/search/search'
+import singerDetail from '@/page/singerDetail/singerDetail'
 
 export default {
   name: 'App',
   components: {
-    MyHeader, Player, musicListDetailPage, MVDetailPage, Search
+    MyHeader, Player, musicListDetailPage, MVDetailPage, Search, singerDetail
   },
   data () {
     return {

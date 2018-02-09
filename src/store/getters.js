@@ -47,6 +47,15 @@ const getters = {
   },
   searchShow (state) {
     return state.searchShow
+  },
+  singerArtist (state) {
+    return state.singer.artist
+  },
+  singerShow (state) {
+    return state.singer.show
+  },
+  singerList (state) {
+    return state.singer.list
   }
 }
 export default getters

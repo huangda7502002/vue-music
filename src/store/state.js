@@ -20,6 +20,11 @@ const state = {
     Mode: 'sequence',
     CurrentIndex: -1
   },
-  searchShow: false
+  searchShow: false,
+  singer: {
+    artist: {},
+    list: [],
+    show: false
+  }
 }
 export default state
