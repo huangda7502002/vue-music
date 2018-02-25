@@ -90,7 +90,7 @@
               <li class="next" @click="next">
                 <i class="icon-nextdetail"></i>
               </li>
-              <li class="list">
+              <li class="list" @click="showPlayerList">
                 <i class="icon-list-music"></i>
               </li>
             </ul>
@@ -111,9 +111,10 @@
         <i :class="playIcon"></i>
       </div>
       <div class="menu">
-        <i class="icon-list-music"></i>
+        <i class="icon-list-music" @click="showPlayerList"></i>
       </div>
     </div>
+    <player-list ref="playerList"></player-list>
     <audio autoplay ref="audio" @ended="end" @timeupdate="updateTime" @error="audioError" @canplay="audioReady" :src="musicUrl"></audio>
 
   </div>
@@ -126,6 +127,7 @@ import ProgressCircle from '@/base/progress-circle/progress-circle'
 import getLyric from '@/api/getLyric'
 import Lyric from '@/common/js/Lyric'
 import Scroll from '@/components/scroll/scroll'
+import playerList from '@/components/playerList/playerList'
 
 export default {
   name: 'player',
@@ -141,16 +143,20 @@ export default {
     }
   },
   components: {
-    MyProgress, ProgressCircle, Scroll
+    MyProgress, ProgressCircle, Scroll, playerList
   },
   methods: {
     getCurrentSongLyric () {
       let id = this.playerCurrentSong.id
       getLyric(id, (data) => {
         if (data.code === 200) {
+          if (this.currentLyric) {
+            this.currentLyric.stop()
+          }
           this.currentLyric = new Lyric(data.lrc.lyric, this.handleLyric)
           if (this.playerState) {
             this.currentLyric.play()
+            this.currentLyric.stop()
           }
         } else {
           this.currentLyric = null
@@ -172,6 +178,7 @@ export default {
         this.showLyric = false
       } else {
         this.showLyric = true
+        this.$refs.lyricList.refresh()
       }
     },
     backgroundLoaded () {
@@ -186,10 +193,6 @@ export default {
       } else {
         this.setPlayerState(true)
       }
-
-      if (this.currentLyric) {
-        this.currentLyric.togglePlay()
-      }
     },
     progressChange (percent) {
       this.$refs.audio.currentTime = this.duration * percent
@@ -198,8 +201,8 @@ export default {
         this.togglePlayerState()
       }
       if (this.currentLyric) {
-        this.currentLyric.play()
         this.currentLyric.seek(this.duration * percent * 1000)
+        this.currentLyric.stop()
       }
     },
     progrssMove (percent) {
@@ -215,6 +218,18 @@ export default {
       if (!this.songReady) {
         return
       }
+      if (this.playerPlayList.length === 0) {
+        return
+      }
+      if (this.playerPlayList.length === 1) {
+        this.$refs.audio.currentTime = 0
+        this.getCurrentSongLyric()
+        if (!this.playerState) {
+          this.togglePlayerState()
+        }
+        return
+      }
+
       let index = this.playerCurrentIndex - 1
       if (index === -1) {
         index = this.playerPlayList.length - 1
@@ -229,6 +244,15 @@ export default {
       if (!this.songReady) {
         return
       }
+      if (this.playerPlayList.length === 1) {
+        this.$refs.audio.currentTime = 0
+        if (!this.playerState) {
+          this.togglePlayerState()
+        }
+        this.getCurrentSongLyric()
+        return
+      }
+
       let index = this.playerCurrentIndex + 1
       if (index === this.playerPlayList.length) {
         index = 0
@@ -260,6 +284,7 @@ export default {
 
         if (this.currentLyric) {
           this.currentLyric.seek(0)
+          this.currentLyric.stop()
         }
       }
     },
@@ -272,6 +297,10 @@ export default {
     updateTime (e) {
       if (!this.Move) {
         this.currentTime = e.target.currentTime
+        if (this.currentLyric) {
+          this.currentLyric.seek(this.currentTime * 1000)
+          this.currentLyric.stop()
+        }
       }
     },
     format (interval) {
@@ -293,6 +322,12 @@ export default {
         mode = 'sequence'
       }
       this.setPlayerMode(mode)
+    },
+    showPlayerList () {
+      this.$refs.playerList.show()
+    },
+    hidePlayerList () {
+      this.$refs.playerList.hide()
     },
     ...mapMutations({
       setFullScreen: 'SET_PLAYER_FULLSCREEN',
@@ -360,6 +395,9 @@ export default {
     playerState (state) {
       this.$nextTick(() => {
         let audio = this.$refs.audio
+        if (!audio) {
+          return
+        }
         if (state) {
           audio.play()
         } else {
@@ -367,7 +405,10 @@ export default {
         }
       })
     },
-    playerCurrentSong () {
+    playerCurrentSong (song) {
+      if (!song) {
+        return
+      }
       this.backgroundActive = false
       if (this.currentLyric) {
         this.currentLyric.stop()

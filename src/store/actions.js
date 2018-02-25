@@ -76,6 +76,35 @@ const actions = {
   },
   hideSingerPage ({commit}) {
     commit(types.SET_SEARCH_SHOW, false)
+  },
+  deleteSong ({commit, state}, song) {
+    let index = -1
+    let playList = state.player.PlayList
+    let currentIndex = state.player.CurrentIndex
+    for (let i = 0; i < playList.length; i++) {
+      if (song.id === playList[i].id) {
+        index = i
+        playList.splice(i, 1)
+      }
+    }
+    if (index === -1) {
+      return
+    }
+    if (currentIndex > index || currentIndex === playList.length) {
+      currentIndex--
+    }
+    commit(types.SET_PLAYER_PLAYLIST, playList)
+    commit(types.SET_PLAYER_CURRENTINDEX, currentIndex)
+    if (!playList.length) {
+      commit(types.SET_PLAYER_STATE, false)
+    } else {
+      commit(types.SET_PLAYER_STATE, true)
+    }
+  },
+  deleteSongList ({commit}) {
+    commit(types.SET_PLAYER_PLAYLIST, [])
+    commit(types.SET_PLAYER_CURRENTINDEX, -1)
+    commit(types.SET_PLAYER_STATE, false)
   }
 }
 

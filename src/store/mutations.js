@@ -19,7 +19,7 @@ const mutations = {
     state.musicListDetail.show = data
   },
   [types.SET_MUSICLISTDETAIL_SHOWLIST] (state, data) {
-    state.musicListDetail.showList = data
+    state.musicListDetail.showList = Object.assign({}, data)
   },
   [types.SET_MUSICLISTDETAIL_COPYWRITE] (state, data) {
     state.musicListDetail.copywriter = data
@@ -28,7 +28,7 @@ const mutations = {
     state.player.Play = data
   },
   [types.SET_PLAYER_PLAYLIST] (state, data) {
-    state.player.PlayList = data
+    state.player.PlayList = Object.assign([], data)
   },
   [types.SET_PLAYER_FULLSCREEN] (state, data) {
     state.player.FullScreen = data

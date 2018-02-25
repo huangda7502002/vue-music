@@ -3,7 +3,8 @@
     <div class="listWrap">
       <div class="listItem" @click="selectItem(item.id)" :key="index" v-for="(item,index) in MVList">
         <div class="left">
-          <img v-lazy="item.cover" alt="">
+          <img v-if="item.cover" v-lazy="item.cover" alt="">
+          <img v-else v-lazy="item.imgurl"  alt="">
         </div>
         <div class="right">
           <p class="name">{{item.name}}</p>
@@ -48,7 +49,7 @@ export default {
       display:flex;
       .left {
         padding: .24rem .26rem .19rem .18rem;
-        width: 3.65rem;
+        width: 2.67rem;
         img {
           width: 100%;
           height: 100%;

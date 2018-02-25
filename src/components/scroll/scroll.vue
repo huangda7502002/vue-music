@@ -56,6 +56,14 @@ export default {
     pullUpLoad: {
       type: null,
       default: false
+    },
+    probeType: {
+      type: Number,
+      'default': 1
+    },
+    listenScroll: {
+      type: Boolean,
+      'default': false
     }
   },
   data () {
@@ -77,13 +85,19 @@ export default {
         bounce: this.bounce,
         click: this.click,
         pullDownRefresh: this.pullDownRefresh,
-        pullUpLoad: this.pullUpLoad
+        pullUpLoad: this.pullUpLoad,
+        probeType: this.probeType
       })
       if (this.pullDownRefresh) {
         this.initPullDownRefresh()
       }
       if (this.pullUpLoad) {
         this.initPullUpLoad()
+      }
+      if (this.listenScroll) {
+        this.scroll.on('scroll', (pos) => {
+          this.$emit('scroll', pos)
+        })
       }
     },
     refresh () {
