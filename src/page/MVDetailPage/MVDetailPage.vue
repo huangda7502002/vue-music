@@ -58,7 +58,7 @@
 
             <div class="recommend">
               <div class="relative">相关推荐</div>
-              <m-v-list :MVList="simi" @selectItem="selectSimiItem"></m-v-list>
+              <m-v-list :MVList="simi" @selectMVItem="selectSimiItem"></m-v-list>
             </div>
             <div class="commend">
               <comment-list :comment="comment"></comment-list>
@@ -184,7 +184,7 @@ export default {
     left: 0;
     top: 0;
     background:#f2f4f5;
-    z-index: 10;
+    z-index: 30;
     .header {
       position: absolute;
       left: 0;
@@ -210,7 +210,6 @@ export default {
     }
     .top {
       width: 100%;
-      height: 6.07rem;
     }
     .bottom {
       position: relative;

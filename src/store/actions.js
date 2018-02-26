@@ -36,6 +36,7 @@ const actions = {
   showMusicListDetail ({commit, state}, obj) {
     commit(types.SET_MUSICLISTDETAIL_SHOW, true)
     commit(types.SET_MUSICLISTDETAIL_COPYWRITE, obj.copywriter)
+    commit(types.SET_MUSICLISTDETAIL_SHOWLIST, [])
     getMusicListDetail(obj.id, (result) => {
       commit(types.SET_MUSICLISTDETAIL_SHOWLIST, result)
     })
@@ -75,7 +76,7 @@ const actions = {
     commit(types.SET_SINGER_SHOW, true)
   },
   hideSingerPage ({commit}) {
-    commit(types.SET_SEARCH_SHOW, false)
+    commit(types.SET_SINGER_SHOW, false)
   },
   deleteSong ({commit, state}, song) {
     let index = -1

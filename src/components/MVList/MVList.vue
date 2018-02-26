@@ -35,7 +35,7 @@ export default {
       return `${minute}:${second}`
     },
     selectItem (id) {
-      this.$emit('selectItem', id)
+      this.$emit('selectMVItem', id)
     }
   }
 }
@@ -46,6 +46,7 @@ export default {
     width: 100%;
     .listItem {
       height: 2.22rem;
+      background-color: #f2f4f5;
       display:flex;
       .left {
         padding: .24rem .26rem .19rem .18rem;

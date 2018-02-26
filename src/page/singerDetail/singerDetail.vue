@@ -1,7 +1,8 @@
 <template>
-  <div class="singerDetail" v-if="singerShow">
+  <transition name="fadeUp" >
+    <div class="singerDetail" v-if="singerShow">
     <div ref="header" class="header">
-      <div class="back">
+      <div class="back" @click="back">
         <i class="icon-back"></i>
       </div>
       <div class="author">
@@ -14,7 +15,7 @@
     </div>
     <div class="content">
       <div class="img" ref="img">
-        <img :src="singerArtist.picUrl" alt="">
+        <img :src="singerArtist.picUrl" alt="" ref="bgImg">
       </div>
       <ul class="option" ref="ul">
         <li class="tabItem active" @click="selectItem(0)">热门&nbsp;<span class="num">50</span></li>
@@ -26,10 +27,15 @@
 
         <div class="tabContent" ref="tabContent">
           <scroll @scroll="scroll" :listenScroll="listenScroll" :probe-type="probeType" :data="list" ref="scroll">
+            <div class="loading" v-if="list.length === 0">
+              <loading></loading>
+              &nbsp;努力加载中...
+            </div>
             <component :is="type"
                        :albumList="list"
                        :tracks="list"
                        :MVList="list"
+                       @selectMVItem="selectMV"
             ></component>
           </scroll>
         </div>
@@ -37,10 +43,11 @@
       </div>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import music from '@/components/MusicList/MusicList'
 import album from '@/components/albumList/albumList'
 import mv from '@/components/MVList/MVList'
@@ -48,11 +55,12 @@ import getSingerMusic from '@/api/getSingerMusic'
 import getSingerAlbum from '@/api/getSingerAlbum'
 import getSingerMV from '@/api/getSingerMV'
 import Scroll from '@/components/scroll/scroll'
+import loading from '@/base/loading/loading'
 
 export default {
   name: 'singer-detail',
   components: {
-    music, Scroll, album, mv
+    music, Scroll, album, mv, loading
   },
   data () {
     return {
@@ -82,10 +90,16 @@ export default {
     },
     getData () {
       this.initHeight()
+      this.list = []
       if (this.type === 'music') {
         getSingerMusic(this.singerArtist.id).then((data) => {
           if (data.code === 200) {
             this.list = data.hotSongs
+            for (let i = 0; i < data.hotSongs.length; i++) {
+              this.list[i].alias = data.hotSongs[i].alia
+              this.list[i].artists = data.hotSongs[i].ar
+              this.list[i].album = data.hotSongs[i].al
+            }
           }
         })
       }
@@ -106,7 +120,6 @@ export default {
       }
     },
     initHeight () {
-      console.log(this.$refs.img)
       let h1 = this.$refs.img.clientHeight
       let h2 = this.$refs.ul.clientHeight
       let winH = document.documentElement.clientHeight
@@ -115,8 +128,18 @@ export default {
     },
     scroll (pos) {
       this.scrollY = pos.y
-      console.log()
-    }
+    },
+    back () {
+      this.list = []
+      this.hideSingerPage()
+    },
+    selectMV (id) {
+      this.showMVDetailPage(id)
+    },
+    ...mapActions([
+      'hideSingerPage',
+      'showMVDetailPage'
+    ])
   },
   computed: {
     ...mapGetters([
@@ -128,7 +151,10 @@ export default {
     singerShow () {
       if (this.singerShow) {
         this.$nextTick(() => {
+          this.list = []
+          this.type = 'music'
           this.initHeight()
+          this.getData()
         })
       }
     },
@@ -138,6 +164,14 @@ export default {
       let translateY = h1 - h2
       newY = Math.max(newY, -translateY)
       this.$refs.ul.style.transform = `translateY(${newY}px)`
+      if (newY > 0) {
+        let imgH = this.$refs.bgImg.offsetHeight
+        const percent = (Math.abs(newY) + imgH) / imgH
+        this.$refs.img.style.transform = `scale(${percent})`
+      } else {
+        this.$refs.header.style.backgroundColor = `rgba(0,0,0,${newY / (-translateY) * 0.6})`
+        this.$refs.img.style.transform = `translateY(${newY}px)`
+      }
     }
   },
   created () {
@@ -163,7 +197,7 @@ export default {
       height: 1.57rem;
       width: 100%;
       display:flex;
-      background:transparent;
+      z-index: 10;
       .back,.share {
         width: 1.67rem;
         height: 100%;
@@ -184,8 +218,14 @@ export default {
       .img {
         width: 100%;
         height: 7.64rem;
+        position: relative;
+        z-index: 5;
         img {
           width: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 5;
         }
       }
       .option {
@@ -197,6 +237,7 @@ export default {
         position: relative;
         font-size: .38rem;
         line-height: 1.2rem;
+        z-index: 5;
         .tabItem {
           flex: 1;
           position: relative;
@@ -220,6 +261,20 @@ export default {
           background:#d33a31;
         }
       }
+      .tabs {
+        z-index: 0;
+        position: relative;
+        .loading {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 16px 0;
+        }
+      }
       .tabContent {
         background: #f2f4f5;
         /deep/ .BScroll {
@@ -227,6 +282,14 @@ export default {
         }
       }
     }
+  }
+
+  .fadeUp-enter-active,.fadeUp-leave-active {
+    transition: all .2s;
+  }
+  .fadeUp-enter,.fadeUp-leave-active {
+    opacity: 0;
+    transform: translateY(1rem)
   }
 
 </style>

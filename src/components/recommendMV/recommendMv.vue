@@ -37,7 +37,6 @@ export default {
       'showMVDetailPage'
     ]),
     selectMVItem (id) {
-      console.log(id)
       this.showMVDetailPage(id)
     }
   }

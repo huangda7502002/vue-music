@@ -5,7 +5,7 @@ const state = {
   recommendMV: [],
   topMV: [],
   musicListDetail: {
-    showList: [],
+    showList: {},
     copywriter: '',
     show: false
   },

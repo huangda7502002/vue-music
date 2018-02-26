@@ -27,7 +27,10 @@
             :playList="list"
             :singerList="list"
             :albumList="list"
-            :is="which"></component>
+            :is="which"
+            @selectMVItem="selectMV"
+            @selectPlayListItem="selectPlayList"
+          ></component>
         </scroll>
       </div>
     </div>
@@ -68,8 +71,16 @@ export default {
   methods: {
     ...mapActions([
       'hideSearchPage',
-      'showSingerPage'
+      'showSingerPage',
+      'showMVDetailPage',
+      'showMusicListDetail'
     ]),
+    selectMV (id) {
+      this.showMVDetailPage(id)
+    },
+    selectPlayList (item) {
+      this.showMusicListDetail(item)
+    },
     selectItem (name, e) {
       let list = this.$refs.ul.children
       for (let i = 0; i < list.length; i++) {

@@ -1,11 +1,11 @@
 <template>
   <transition name="fadeUp">
     <div class="musicListDetailPage"  v-show="musicListDetail.show">
-      <div class="loading" v-if="musicListDetail.showList.length === 0">
+      <div class="loading" v-if="!musicListDetail.showList.id">
         <loading></loading>
         &nbsp;努力加载中...
       </div>
-      <div class="background"  :style="'background-image: url(' + coverImgUrl + ')' " v-if="musicListDetail.showList.length !== 0"></div>
+      <div class="background"  :style="'background-image: url(' + coverImgUrl + ')' " v-if="musicListDetail.showList.id"></div>
       <div class="top">
         <div class="back" @click="back">
           <i class="icon-back"></i>
@@ -21,7 +21,7 @@
           <i class="icon-list-circle-small"></i>
         </div>
       </div>
-      <b-scroll :data="musicListDetail.showList" class="scrollView" v-if="musicListDetail.showList.length !== 0">
+      <b-scroll :data="musicListDetail.showList" class="scrollView" v-if="musicListDetail.showList.id">
         <div class="content">
           <div class="author">
             <img :src="coverImgUrl" alt="">
@@ -189,6 +189,7 @@ export default {
       justify-content: center;
       align-items: center;
       padding: 16px 0;
+      color: #333;
     }
     .top {
       position: fixed;
