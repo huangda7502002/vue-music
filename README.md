@@ -1,3 +1,8 @@
+![](https://img.shields.io/badge/vue-2.5.2-FFCC33.svg) ![](https://img.shields.io/badge/vue_router-3.0.1-279B61.svg)  ![](https://img.shields.io/badge/vuex-3.0.1-008AB8.svg) ![](https://img.shields.io/badge/better_scroll-1.8.0-95CAE4.svg)
+![](https://img.shields.io/badge/webpack-3.6.0-A3E496.svg) ![](https://img.shields.io/badge/node->=6.0.0-95CAE4.svg) 
+![](https://img.shields.io/badge/npm->=3.0.0-CC6699.svg)
+
+
 # 技术栈
 
 > vue2.0 + vue-router + webpack + vuex + axios
@@ -23,7 +28,12 @@
 
 # 更新历程
 
-> 2.25 添加播放器歌曲列表
+### 2 月 25 日更新 
+添加播放器歌曲列表
+### 2 月 26 日更新 
+添加歌手详情信息页面
+### 2 月 27 日更新 
+完善搜索页面逻辑
 
 # 项目截图
 
