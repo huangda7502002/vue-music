@@ -36,6 +36,9 @@ const getters = {
   playerCurrentSong (state) {
     return state.player.PlayList[state.player.CurrentIndex]
   },
+  albumDetail (state) {
+    return state.albumDetail
+  },
   musicListDetail (state) {
     return state.musicListDetail
   },

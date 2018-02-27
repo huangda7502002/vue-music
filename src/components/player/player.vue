@@ -405,11 +405,13 @@ export default {
         }
       })
     },
-    playerCurrentSong (song) {
+    playerCurrentSong (song, oldsong) {
       if (!song) {
         return
       }
-      this.backgroundActive = false
+      if (oldsong && song.album.id !== oldsong.album.id) {
+        this.backgroundActive = false
+      }
       if (this.currentLyric) {
         this.currentLyric.stop()
       }

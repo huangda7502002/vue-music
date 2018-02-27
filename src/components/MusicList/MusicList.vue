@@ -1,7 +1,7 @@
 <template>
   <div class="musicList">
     <ul>
-      <li v-for="(item,index) in tracks" :key="index" class="listItem" @click="selectItem(item, index)">
+      <li v-for="(item,index) in tracks" :key="index" class="listItem" @click="selectMusicItem(item, index)">
         <span class="rank">{{index + 1}}</span>
         <div class="music">
           <p>
@@ -41,8 +41,8 @@ export default {
     getName (trackItem) {
       return trackItem.name
     },
-    selectItem (item, index) {
-      this.$emit('selected', item, index)
+    selectMusicItem (item, index) {
+      this.$emit('selectMusicItem', item, index)
     }
   }
 }

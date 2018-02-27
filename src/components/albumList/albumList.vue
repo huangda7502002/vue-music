@@ -1,7 +1,7 @@
 <template>
   <div class="albumList">
     <ul v-if="albumList.length > 0">
-      <li :key="index" v-for="(item,index) in albumList" class="listItem">
+      <li :key="index" v-for="(item,index) in albumList" class="listItem" @click="selectAlbum(item)">
         <div class="left">
           <img v-lazy="item.picUrl" alt="">
         </div>
@@ -28,7 +28,9 @@ export default {
     }
   },
   methods: {
-
+    selectAlbum (item) {
+      this.$emit('selectAlbumItem', item)
+    }
   }
 }
 </script>

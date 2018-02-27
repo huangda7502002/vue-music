@@ -9,6 +9,10 @@ const state = {
     copywriter: '',
     show: false
   },
+  albumDetail: {
+    showList: {},
+    show: false
+  },
   MVDetail: {
     show: false,
     MVId: ''

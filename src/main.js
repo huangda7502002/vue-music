@@ -14,12 +14,13 @@ import IScrollView from 'vue-iscroll-view'
 import init from '@/../static/js/init.js'
 import FastClick from 'fastclick'
 import VueLazyLoad from 'vue-lazyload'
+import logo from './logo.png'
 
 FastClick.attach(document.body)
 init()
 
 Vue.use(VueLazyLoad, {
-  loading: 'logo.png'
+  loading: logo
 })
 
 Vue.use(IScrollView, IScroll)

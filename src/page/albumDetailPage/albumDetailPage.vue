@@ -1,18 +1,17 @@
 <template>
   <transition name="fadeUp">
-    <div class="musicListDetailPage"  v-show="musicListDetail.show">
-      <div class="loading" v-if="!musicListDetail.showList.id">
+    <div class="AlbumDetailPage"  v-show="albumDetail.show">
+      <div class="loading" v-if="!albumDetail.showList.album">
         <loading></loading>
         &nbsp;努力加载中...
       </div>
-      <div class="background"  :style="'background-image: url(' + coverImgUrl + ')' " v-if="musicListDetail.showList.id"></div>
+      <div class="background"  :style="'background-image: url(' + coverImgUrl + ')' " v-if="albumDetail.showList.album"></div>
       <div class="top">
         <div class="back" @click="back">
           <i class="icon-back"></i>
         </div>
         <div class="text">
-          <p>歌单</p>
-          <p>{{musicListDetail.copywriter}}</p>
+          <p>专辑</p>
         </div>
         <div class="search">
           <i class="icon-search"></i>
@@ -21,17 +20,17 @@
           <i class="icon-list-circle-small"></i>
         </div>
       </div>
-      <b-scroll :data="musicListDetail.showList" class="scrollView" v-if="musicListDetail.showList.id">
+      <b-scroll :data="albumDetail.showList" class="scrollView" v-if="albumDetail.showList.album">
         <div class="content">
           <div class="author">
             <img :src="coverImgUrl" alt="">
             <div class="listName">
               <p class="listTitle">{{name}}</p>
               <p class="avatar">
-                <img :src="avatarUrl" alt="">
-                <span>{{nickName}}</span>
+                <span>歌手：{{nickName}}&nbsp;</span>
                 <i class="icon-right"></i>
               </p>
+              <div class="publishTime">发行时间:{{albumDetail.showList.album.publishTime | time}}</div>
             </div>
             <div class="operation">
               <div class="operationItem">
@@ -63,7 +62,9 @@
             <i class="icon-menu"></i>
             <p class="choose">多选</p>
           </div>
-          <music-list @selectMusicItem="selectItem"  :tracks="musicListDetail.showList.tracks"></music-list>
+          <div class="listWrap">
+            <music-list @selectMusicItem="selectItem"  :tracks="albumDetail.showList.songs"></music-list>
+          </div>
         </div>
       </b-scroll>
     </div>
@@ -85,77 +86,57 @@ export default {
   methods: {
     selectItem (item, index) {
       this.selectPlay({
-        list: this.musicListDetail.showList.tracks,
+        list: this.albumDetail.showList.songs,
         index: index
       })
     },
     playAll () {
-      this.randomPlay(this.musicListDetail.showList.tracks)
+      this.randomPlay(this.albumDetail.showList.songs)
     },
     back () {
-      this.hideMusicListDetail()
+      this.hideAlbumDetail()
     },
     ...mapActions([
       'selectPlay',
       'randomPlay',
-      'hideMusicListDetail'
+      'hideAlbumDetail',
+      'showSingerPage'
     ])
   },
   computed: {
     ...mapGetters([
-      'musicListDetail'
+      'albumDetail'
     ]),
-    avatarUrl () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.creator.avatarUrl
-      }
-    },
     nickName () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.creator.nickname
-      }
+      return this.albumDetail.showList.album.artists[0].name
     },
     backgroundUrl () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.creator.backgroundUrl
-      }
+      return this.albumDetail.showList.creator.backgroundUrl
     },
     coverImgUrl () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.coverImgUrl
-      }
+      return this.albumDetail.showList.album.blurPicUrl
     },
     shareCount () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.shareCount
-      }
+      return this.albumDetail.showList.album.info.shareCount
     },
     commentCount () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.commentCount
-      }
+      return this.albumDetail.showList.album.info.commentCount
     },
     subscribedCount () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.subscribedCount
-      }
+      return this.albumDetail.showList.album.size
     },
     name () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.name
-      }
+      return this.albumDetail.showList.album.name
     },
     trackCount () {
-      if (this.musicListDetail.length !== 0) {
-        return this.musicListDetail.showList.trackCount
-      }
+      return this.albumDetail.showList.songs.length
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .musicListDetailPage {
+  .AlbumDetailPage {
     z-index: 20;
     position: absolute;
     top: 0;
@@ -170,7 +151,7 @@ export default {
       left:0;
       top: 0;
       width: 100%;
-      height: 50%;
+      height: 45%;
       background-size: cover;
       background-position: 50%;
       transform: scale(1.5);
@@ -207,11 +188,6 @@ export default {
         text-align:left;
         p:first-child {
           line-height: .7rem;
-        }
-        p:last-child {
-          line-height: .3rem;
-          color: #7c7976;
-          font-size: .3rem;
         }
       }
 
@@ -254,14 +230,11 @@ export default {
             margin-top: .2rem;
             margin-bottom: .5rem;
           }
-          .avatar {
+          .avatar,.publishTime {
             line-height: .8rem;
             font-size: .4rem;
             color:#cdcbcb;
             display:flex;
-            span {
-              padding-left: .19rem;
-            }
             i {
               line-height: .8rem;
             }
@@ -273,17 +246,17 @@ export default {
           }
         }
         .operation {
-         display:flex;
-         .operationItem {
-           flex: 1;
-           text-align:center;
-           padding: .35rem 0;
-           font-size: .4rem;
-           i {
-             font-size: .65rem;
-           }
-         }
-       }
+          display:flex;
+          .operationItem {
+            flex: 1;
+            text-align:center;
+            padding: .35rem 0;
+            font-size: .4rem;
+            i {
+              font-size: .65rem;
+            }
+          }
+        }
       }
       .play {
         height: 1.48rem;
@@ -314,6 +287,11 @@ export default {
         .choose {
           width: 1.15rem;
         }
+      }
+      .listWrap {
+        width: 100%;
+        background:#f2f4f5;
+        padding-bottom: 1.5rem;
       }
     }
   }

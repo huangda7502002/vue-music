@@ -15,6 +15,13 @@ const mutations = {
   [types.SET_TOP_MV] (state, data) {
     state.topMV = data
   },
+  [types.SET_ALBUMDETAIL_SHOW] (state, data) {
+    state.albumDetail.show = data
+  },
+  [types.SET_ALBUMDETAIL_SHOWLIST] (state, data) {
+    console.log(data)
+    state.albumDetail.showList = Object.assign({}, data)
+  },
   [types.SET_MUSICLISTDETAIL_SHOW] (state, data) {
     state.musicListDetail.show = data
   },

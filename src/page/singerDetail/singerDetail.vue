@@ -36,6 +36,8 @@
                        :tracks="list"
                        :MVList="list"
                        @selectMVItem="selectMV"
+                       @selectAlbumItem="selectAlbum"
+                       @selectMusicItem="selectMusic"
             ></component>
           </scroll>
         </div>
@@ -114,7 +116,6 @@ export default {
         getSingerMV(this.singerArtist.id).then((data) => {
           if (data.code === 200) {
             this.list = data.mvs
-            console.log(data)
           }
         })
       }
@@ -136,9 +137,17 @@ export default {
     selectMV (id) {
       this.showMVDetailPage(id)
     },
+    selectAlbum (item) {
+      this.showAlbumDetail(item)
+    },
+    selectMusic (song) {
+      this.addSong(song)
+    },
     ...mapActions([
       'hideSingerPage',
-      'showMVDetailPage'
+      'showMVDetailPage',
+      'showAlbumDetail',
+      'addSong'
     ])
   },
   computed: {

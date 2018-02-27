@@ -4,6 +4,7 @@ import getRecommendMV from '@/api/getRecommendMV'
 import getTopMV from '@/api/getTopMV'
 import getBanner from '@/api/getBanner'
 import getMusicListDetail from '@/api/getMusicListDetail'
+import getAlbumDetail from '@/api/getAlbum'
 
 import * as types from './mutation-types'
 
@@ -40,6 +41,24 @@ const actions = {
     getMusicListDetail(obj.id, (result) => {
       commit(types.SET_MUSICLISTDETAIL_SHOWLIST, result)
     })
+  },
+  showAlbumDetail ({commit, state}, obj) {
+    commit(types.SET_ALBUMDETAIL_SHOW, true)
+    commit(types.SET_ALBUMDETAIL_SHOWLIST, [])
+    getAlbumDetail(obj.id, (result) => {
+      if (result.code === 200) {
+        for (let i = 0; i < result.songs.length; i++) {
+          result.songs[i].duration = result.songs[i].dt
+          result.songs[i].album = result.album
+          result.songs[i].artists = result.songs[i].ar
+          result.songs[i].alias = result.songs[i].alia
+        }
+        commit(types.SET_ALBUMDETAIL_SHOWLIST, result)
+      }
+    })
+  },
+  hideAlbumDetail ({commit}) {
+    commit(types.SET_ALBUMDETAIL_SHOW, false)
   },
   hideMusicListDetail ({commit}) {
     commit(types.SET_MUSICLISTDETAIL_SHOW, false)
@@ -101,6 +120,23 @@ const actions = {
     } else {
       commit(types.SET_PLAYER_STATE, true)
     }
+  },
+  addSong ({commit, state}, song) {
+    let playList = state.player.PlayList
+    getAlbumDetail(song.album.id, (result) => {
+      song.album = result.album
+      commit(types.SET_PLAYER_STATE, true)
+      commit(types.SET_PLAYER_FULLSCREEN, true)
+      for (let i = 0; i < playList.length; i++) {
+        if (playList[i].id === song.id) {
+          commit(types.SET_PLAYER_CURRENTINDEX, i)
+          return
+        }
+      }
+      playList.push(song)
+      commit(types.SET_PLAYER_PLAYLIST, playList)
+      commit(types.SET_PLAYER_CURRENTINDEX, playList.length - 1)
+    })
   },
   deleteSongList ({commit}) {
     commit(types.SET_PLAYER_PLAYLIST, [])

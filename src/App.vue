@@ -10,6 +10,7 @@
     <search></search>
     <player></player>
     <music-list-detail-page></music-list-detail-page>
+    <album-detail-page></album-detail-page>
     <m-v-detail-page></m-v-detail-page>
   </div>
 </template>
@@ -21,11 +22,12 @@ import musicListDetailPage from '@/page/musicListDetailPage/musicListDetailPage'
 import MVDetailPage from '@/page/MVDetailPage/MVDetailPage'
 import Search from '@/page/search/search'
 import singerDetail from '@/page/singerDetail/singerDetail'
+import albumDetailPage from '@/page/albumDetailPage/albumDetailPage'
 
 export default {
   name: 'App',
   components: {
-    MyHeader, Player, musicListDetailPage, MVDetailPage, Search, singerDetail
+    MyHeader, Player, musicListDetailPage, MVDetailPage, Search, singerDetail, albumDetailPage
   },
   data () {
     return {

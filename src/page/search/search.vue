@@ -19,6 +19,10 @@
         </ul>
       </div>
       <div ref="list" class="list">
+        <div class="loading" v-if="showLoading">
+          <loading></loading>
+          &nbsp;努力加载中...
+        </div>
         <scroll :data="list" v-if="list && list.length > 0">
           <component
             @selectSingerItem="selectSingerItem"
@@ -30,6 +34,8 @@
             :is="which"
             @selectMVItem="selectMV"
             @selectPlayListItem="selectPlayList"
+            @selectAlbumItem="selectAlbum"
+            @selectMusicItem="selectMusic"
           ></component>
         </scroll>
       </div>
@@ -46,12 +52,13 @@ import scroll from '@/components/scroll/scroll'
 import musicList from '@/components/playList/playList'
 import singer from '@/components/singerList/singerList'
 import album from '@/components/albumList/albumList'
+import loading from '@/base/loading/loading'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'search',
   components: {
-    Music, scroll, Mv, musicList, singer, album
+    Music, scroll, Mv, musicList, singer, album, loading
   },
   data () {
     return {
@@ -60,7 +67,8 @@ export default {
       offset: 0,
       limit: 100,
       type: '1',
-      list: []
+      list: [],
+      showLoading: false
     }
   },
   computed: {
@@ -73,13 +81,21 @@ export default {
       'hideSearchPage',
       'showSingerPage',
       'showMVDetailPage',
-      'showMusicListDetail'
+      'showMusicListDetail',
+      'showAlbumDetail',
+      'addSong'
     ]),
+    selectMusic (song) {
+      this.addSong(song)
+    },
     selectMV (id) {
       this.showMVDetailPage(id)
     },
     selectPlayList (item) {
       this.showMusicListDetail(item)
+    },
+    selectAlbum (item) {
+      this.showAlbumDetail(item)
     },
     selectItem (name, e) {
       let list = this.$refs.ul.children
@@ -102,6 +118,8 @@ export default {
       this.search(name)
     },
     search (name) {
+      this.list = []
+      this.showLoading = true
       getSearch(this.inputString, this.type, this.limit, this.offset, (data) => {
         if (data.code === 200) {
           if (this.type === '1') {
@@ -115,9 +133,9 @@ export default {
           } else if (this.type === '1004') {
             this.list = data.result.mvs
           }
-          console.log(data)
           this.which = name
         }
+        this.showLoading = false
       })
     },
     setListHeight () {
@@ -223,6 +241,17 @@ export default {
    }
    .list {
      background: #f2f4f5;
+     position:relative;
+     .loading {
+       position: absolute;
+       left: 0;
+       top: 0;
+       width: 100%;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       padding: 16px 0;
+     }
    }
  }
 
